@@ -1,0 +1,37 @@
+{
+  "name": "next-blurhash-blurdataurl",
+  "version": "0.0.1",
+  "description": "Easily convert provided image to both - blurhash and blurDataURL",
+  "main": "./dist/index.js",
+  "scripts": {
+    "build": "npx tsc -p tsconfig.json",
+    "publish": "npm run build && npm publish --access public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/chrxmvtik/next-blurhash-blurdataurl.git"
+  },
+  "keywords": [
+    "next",
+    "blurhash",
+    "blurdataurl",
+    "image",
+    "blur",
+    "hash"
+  ],
+  "author": "chrxmvtik",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/chrxmvtik/next-blurhash-blurdataurl/issues"
+  },
+  "homepage": "https://github.com/chrxmvtik/next-blurhash-blurdataurl#readme",
+  "files": [
+    "dist/",
+    "README.md"
+  ],
+  "devDependencies": {
+    "@types/node": "^20.4.2",
+    "blurhash": "^2.0.5",
+    "canvas": "^2.11.2"
+  }
+}
