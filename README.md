@@ -20,7 +20,7 @@ Install next-blurhash-blurdata with npm
 }`
 
 ```javascript
-import generateBlurhash from 'next-blurhash-blurdaraurl'
+import generateBlurhash from 'next-blurhash-blurdataurl'
 
 // Run inside your async function
 const blurhash = await generateBlurhash("https://example-image.png")
