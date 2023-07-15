@@ -1,6 +1,6 @@
 {
   "name": "next-blurhash-blurdataurl",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Easily convert provided image to both - blurhash and blurDataURL",
   "main": "./dist/index.js",
   "scripts": {
@@ -29,7 +29,7 @@
     "dist/",
     "README.md"
   ],
-  "devDependencies": {
+  "dependencies": {
     "@types/node": "^20.4.2",
     "blurhash": "^2.0.5",
     "canvas": "^2.11.2"
