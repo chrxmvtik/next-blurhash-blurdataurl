@@ -5,8 +5,15 @@ type BlurData = {
   blurHash: string;
   blueDataURL: string;
 };
+
+type jpegOptions = {
+  mimeType: "image/jpeg";
+  quality?: number;
+};
+
 export default async function generateBlurhash(
-  imageUrl: string
+  imageUrl: string,
+  encoderOptions?: jpegOptions
 ): Promise<BlurData> {
   // Load image from path or url
   const image = await loadImage(imageUrl, { crossOrigin: "anonymous" });
@@ -37,7 +44,12 @@ export default async function generateBlurhash(
   imageData.data.set(decodedBlurhash);
   context.putImageData(imageData, 0, 0);
   // Generate blurDataURL
-  const blurDataURL = canvas.toDataURL();
+  const blurDataURL: string = encoderOptions
+    ? canvas.toDataURL(
+        encoderOptions.mimeType,
+        encoderOptions.quality ? encoderOptions.quality : 0.75
+      )
+    : canvas.toDataURL(); // defaults to png
   const blurData: BlurData = {
     blurHash: encodedBlurhash,
     blueDataURL: blurDataURL,

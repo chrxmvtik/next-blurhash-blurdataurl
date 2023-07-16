@@ -1,6 +1,6 @@
 {
   "name": "next-blurhash-blurdataurl",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Easily convert provided image to both - blurhash and blurDataURL",
   "main": "./dist/index.js",
   "scripts": {
