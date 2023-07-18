@@ -1,24 +1,24 @@
 import { decode, encode } from "blurhash";
-import { createCanvas, loadImage } from "canvas";
+import { Canvas, ExportFormat, RenderOptions, loadImage } from "skia-canvas";
 
 type BlurData = {
   blurHash: string;
   blueDataURL: string;
 };
 
-type jpegOptions = {
-  mimeType: "image/jpeg";
-  quality?: number;
+type EncodingOptions = {
+  mimeType: ExportFormat;
+  options?: RenderOptions;
 };
 
 export default async function generateBlurhash(
   imageUrl: string,
-  encoderOptions?: jpegOptions
+  encodingOptions?: EncodingOptions
 ): Promise<BlurData> {
   // Load image from path or url
-  const image = await loadImage(imageUrl, { crossOrigin: "anonymous" });
+  const image = await loadImage(imageUrl);
   // Create canvas
-  const canvas = createCanvas(image.width, image.height);
+  const canvas = new Canvas(image.width, image.height);
   // Create canvas context
   const context = canvas.getContext("2d");
   // Draw the image on canvas
@@ -44,12 +44,14 @@ export default async function generateBlurhash(
   imageData.data.set(decodedBlurhash);
   context.putImageData(imageData, 0, 0);
   // Generate blurDataURL
-  const blurDataURL: string = encoderOptions
-    ? canvas.toDataURL(
-        encoderOptions.mimeType,
-        encoderOptions.quality ? encoderOptions.quality : 0.75
-      )
-    : canvas.toDataURL(); // defaults to png
+  const blurDataURL: string = encodingOptions
+    ? encodingOptions.options
+      ? await canvas.toDataURL(
+          encodingOptions.mimeType,
+          encodingOptions.options
+        )
+      : await canvas.toDataURL(encodingOptions.mimeType)
+    : await canvas.toDataURL("png"); // defaults to png
   const blurData: BlurData = {
     blurHash: encodedBlurhash,
     blueDataURL: blurDataURL,

@@ -4,50 +4,76 @@ Easily convert image from url to both - blurhash and blurDataURL required in Nex
 
 ## Installation
 
-Install next-blurhash-blurdataurl with npm
+Install next-blurhash-blurdata with npm
 
 ```bash
   npm install next-blurhash-blurdataurl
 ```
 
-## Usage/Examples
+## Types
 
-`generateBlurhash(imageUrl: string, encoderOptions?: jpegOptions) => Promise<BlurData>`
-
-`BlurData {
+```javascript
+BlurData {
     blurHash: string;
     blurDataURL: string;
-}`
+}
+```
 
-`jpegOptions = {
-  mimeType: "image/jpeg";
-  quality?: number; // 0-1, defaults to 0.75
-};
-`
+```javascript
+EncodingOptions {
+    mimeType: "png" | "jpg" | "jpeg" | "pdf" | "svg";
+    options: {
+        // Page to export: Defaults to 1 (i.e., first page)
+        page?: number
+
+        // Background color to draw beneath transparent parts of the canvas
+        matte?: string
+
+        // Number of pixels per grid ‘point’ (defaults to 1)
+        density?: number
+
+        // Quality for lossy encodings like JPEG (0.0–1.0)
+        quality?: number
+
+        // Convert text to paths for SVG exports
+        outline?: boolean
+        };
+}
+```
+
+## Usage/Examples
+
+```javascript
+generateBlurhash(imageUrl: string, encodingOptions?: EncodingOptions) => Promise<BlurData>
+```
 
 ```javascript
 import generateBlurhash from 'next-blurhash-blurdataurl'
 
-// Run inside your async function
+/// Example using default settings (no options)
+
 const blurhash = await generateBlurhash("https://example-image.png")
-// Generated blurhash will be a type of image/png with default settings
 
 console.log(blurhash)
 // blurHash: L9BWSr.A0KxbIVRPD*E20g_3_3tQ
 // blurDataURL: data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADoAA...
 
-const jpegConfig = {
-  mimeType: "image/jpeg",
-  quality: 0.9
+/// Example using options
+
+const encodingOptions = {
+    mimeType: "jpeg",
+    options: {
+        quality: 0.9
+    }
 }
 
-const blurhashJpg = await generateBlurhash("https://example-image.png", jpegConfig)
+const blurhashJpeg = await generateBlurhash("https://example-image.png", encodingOptions)
 
-console.log(blurhashJpg)
+console.log(blurhash)
 // blurHash: L9BWSr.A0KxbIVRPD*E20g_3_3tQ
 // blurDataURL: data:image/jpeg;base64,iVBORw0KGgoAAAANSUhEUgAAADoAA...
 
-// Next Image component
+// Next Image component implementation
 <Image
     src="https://example-image.png"
     alt="image"
@@ -59,18 +85,6 @@ console.log(blurhashJpg)
 ```
 
 ## FAQ
-
-#### Canvas installation problem?
-
-Make sure you have installed required packages
-
-- [Canvas installation guide](https://www.npmjs.com/package/canvas#Installation)
-
-#### BlurDataURL is very long and heavy?
-
-Blurhash and blurDataURL generated with default settings will not be compressed to jpeg with lower quality, if you want to reduce blurDataURL size - make use of jpeg config
-
-- [Examples](https://www.npmjs.com/package/next-blurhash-blurdataurl#Usage/Examples)
 
 ## Features
 
@@ -90,4 +104,4 @@ If you have any feedback, feature requests or bugs, feel free to open an issue [
 Here are some related projects
 
 [blurhash](https://www.npmjs.com/package/blurhash)
-[canvas](https://www.npmjs.com/package/canvas)
+[skia-canvas](https://www.npmjs.com/package/skia-canvas)
